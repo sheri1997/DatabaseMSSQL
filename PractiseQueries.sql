@@ -55,3 +55,14 @@ select Departmental_STORE.ProductID, Coustomers.CoustomerID from Departmental_ST
 select ProductID from Departmental_STORE union all select CoustomerID from Coustomers;
 select count(ProductID) from Departmental_STORE group by DepatmentNAME order by count(ProductID) DESC;
 select count(ProductID) from Departmental_STORE group by DepatmentNAME having count(ProductID) >1;
+select ProductNAME from Departmental_STORE where exists (select CoustomerNAME from Coustomers where Coustomers.CoustomerID=Departmental_STORE.ProductID and Price >10);
+select ProductNAME from Departmental_STORE where ProductID = any(select CoustomerID from Coustomers where CoustomerID>2);
+select * into Coustomersbackup from Coustomers;
+select * from Coustomersbackup
+alter table Coustomers add ContactName varchar(100);
+insert into Coustomersbackup(CoustomerNAME) select ContactName from Coustomers;
+select Price, ProductNAME, case when ManufacturingYEAR > 2021 then 'Manufactured in 2022' else 'Product manufactured in 2021' end as msg from Departmental_STORE;
+create procedure selectallproducts as select * from Departmental_STORE go;
+exec selectallproducts;
+create procedure selectallpro @pr nvarchar(100) as select * from Departmental_STORE where price=@pr;
+exec selectallpro @pr = '30';
