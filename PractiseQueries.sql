@@ -1,3 +1,4 @@
+--creating and executing some database queries
 use mssqlpractise
 select * from Departmental_STORE
 select ProductNAME, Price from  Departmental_STORE
@@ -66,3 +67,20 @@ create procedure selectallproducts as select * from Departmental_STORE go;
 exec selectallproducts;
 create procedure selectallpro @pr nvarchar(100) as select * from Departmental_STORE where price=@pr;
 exec selectallpro @pr = '30';
+backup database mssqlpractise to disk = 'D:\Brize';
+create table Persons (ID int not null unique,LastName varchar(255) not null,FirstName varchar(255),Age int);
+select * from Persons;
+alter table persons add MobileNumber int unique;
+create table practise (ID int not null primary key,LastName varchar(255) not null,FirstName varchar(255),Age int);
+select * from practise;
+CREATE TABLE Orders (OrderID int NOT NULL,OrderNumber int NOT NULL,ID int,PRIMARY KEY (OrderID),FOREIGN KEY (ID) REFERENCES Persons(ID));
+select * from Orders;
+CREATE TABLE PersonsAge (ID int NOT NULL,LastName varchar(255) NOT NULL,FirstName varchar(255),Age int CHECK (Age>=18));
+CREATE TABLE Ordersdefault (ID int NOT NULL,OrderNumber int NOT NULL,OrderDate date DEFAULT GETDATE());
+select * from Ordersdefault;
+CREATE INDEX idx_pname ON Persons (LastName, FirstName);
+CREATE TABLE Personsautoincrement (Personid int identity(1,1) primary key,LastName varchar(255) NOT NULL,FirstName varchar(255),Age int);
+select * from Personsautoincrement;
+INSERT INTO Personsautoincrement (FirstName,LastName) VALUES ('Lars','Monsen');
+create view [2021 Maufactured] as select ProductNAME from Departmental_STORE where ManufacturingYEAR='2021';
+select * from [2021 Maufactured];
